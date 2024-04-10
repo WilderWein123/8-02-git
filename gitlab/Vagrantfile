@@ -65,7 +65,11 @@ Vagrant.configure("2") do |config|
   # Enable provisioning with a shell script. Additional provisioners such as
   # Ansible, Chef, Docker, Puppet and Salt are also available. Please see the
   # documentation for more information about their specific syntax and use.
+  config.vm.provision "shell", inline: "chmod 777 /usr/local/share/ca-certificates"
+  config.vm.provision "file", source: "/usr/local/share/ca-certificates/extra/https_inspect2.crt", destination: "/usr/local/share/ca-certificates/extra/https_inspect2.crt"
+  config.vm.provision "file", source: "/usr/local/share/ca-certificates/extra/https_inspect.crt", destination: "/usr/local/share/ca-certificates/extra/https_inspect.crt"
   config.vm.provision "shell", inline: <<-SHELL
+    update-ca-certificates
     export DEBIAN_FRONTEND=noninteractive
     apt-get update
     # install docker & docker-compose
